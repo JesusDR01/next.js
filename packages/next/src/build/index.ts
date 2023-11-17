@@ -1711,7 +1711,11 @@ export default async function build(
                             !isStatic &&
                             !isAppRouteRoute(originalAppPath) &&
                             !isDynamicRoute(originalAppPath) &&
-                            !isPPR
+                            !isPPR &&
+                            // don't attempt to generate static prefetches if
+                            // the segment has explicitly opted into dynamic rendering
+                            appConfig.dynamic !== 'force-dynamic' &&
+                            appConfig.revalidate !== 0
                           ) {
                             appPrefetchPaths.set(originalAppPath, page)
                           }
